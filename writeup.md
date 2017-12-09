@@ -1,22 +1,22 @@
 **Behavioral Cloning Project**
+
 [//]: # (Image References)
 
-[image1]: ./examples/learningcurve.png "Learning Curve"
+[image1]: ./examples/learningcurve.jpg "Learning Curve"
 
+---
+Link to my  [project code](https://github.com/chaitanyar56/CarND-Behavioral-Cloning-P3/blob/master/model.ipynb) and  [Simulator Video](https://github.com/chaitanyar56/CarND-Behavioral-Cloning-P3/blob/master/Simulation.mp4) .
+---
 
-Link to my  [project code](https://github.com/chaitanyar56/CarND-Behavioral-Cloning-P3/blob/master/model.ipynb)
-Link to my  [Simulator Video](https://github.com/chaitanyar56/CarND-Behavioral-Cloning-P3/blob/master/Simulation.mp4)
-
-
-Model Architecture and Training Strategy
+**Model Architecture and Training Strategy**
 
 1. Solution Design Approach
 
-a) Collect data around the track in the simulator.
-b) Start with a simple regression network which predicts the steering angles.
-c) Train and check the performance on simulator.
-d) Based on the performance do preprocessing and add complexity by adding Convolution layers and fully connected layer.
-e) repeat the steps till desired result is achieved.
+* Collect data around the track in the simulator.
+* Start with a simple regression network which predicts the steering angles.
+* Train and check the performance on simulator.
+* Based on the performance do preprocessing and add complexity by adding Convolution layers and fully connected layer.
+* repeat the steps till desired result is achieved.
 
 2. Final Model Architecture
 

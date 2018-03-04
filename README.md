@@ -1,55 +1,55 @@
-# Behaviorial Cloning Project
+## Behavioral Cloning Project
 
-[![Udacity - Self-Driving Car NanoDegree](https://s3.amazonaws.com/udacity-sdc/github/shield-carnd.svg)](http://www.udacity.com/drive)
+The goal of this project is to develop a CNN model that learns and predict steering angles form the video images.
 
-Overview
----
-This repository contains starting files for the Behavioral Cloning Project.
+[Link](https://github.com/chaitanyar56/CarND-Behavioral-Cloning-P3/blob/master/Simulation.mp4) to output of the network on simulator track.
 
-In this project, you will use what you've learned about deep neural networks and convolutional neural networks to clone driving behavior. You will train, validate and test a model using Keras. The model will output a steering angle to an autonomous vehicle.
+[//]: # (Image References)
 
-We have provided a simulator where you can steer a car around a track for data collection. You'll use image data and steering angles to train a neural network and then use this model to drive the car autonomously around the track.
+[image1]: ./examples/learningcurve.jpg "Learning Curve"
 
-We also want you to create a detailed writeup of the project. Check out the [writeup template](https://github.com/udacity/CarND-Behavioral-Cloning-P3/blob/master/writeup_template.md) for this project and use it as a starting point for creating your own writeup. The writeup can be either a markdown file or a pdf document.
+## Model Architecture and Training Strategy
 
-To meet specifications, the project will require submitting five files: 
-* model.py (script used to create and train the model)
-* drive.py (script to drive the car - feel free to modify this file)
-* model.h5 (a trained Keras model)
-* a report writeup file (either markdown or pdf)
-* video.mp4 (a video recording of your vehicle driving autonomously around the track for at least one full lap)
+1. **Solution Design Approach**
 
-This README file describes how to output the video in the "Details About Files In This Directory" section.
+  * Collect data around the track in the simulator.
+  * Start with a simple regression network which predicts the steering angles.
+  * Train and check the performance on simulator.
+  * Based on the performance do preprocessing and add complexity by adding Convolution layers and fully connected layer.
+  * repeat the steps till desired result is achieved.
 
-Creating a Great Writeup
----
-A great writeup should include the [rubric points](https://review.udacity.com/#!/rubrics/432/view) as well as your description of how you addressed each point.  You should include a detailed description of the code used (with line-number references and code snippets where necessary), and links to other supporting documents or external references.  You should include images in your writeup to demonstrate how your code works with examples.  
+2. **Final Model Architecture**
 
-All that said, please be concise!  We're not looking for you to write a book here, just a brief description of how you passed each rubric point, and references to the relevant code :). 
+  * I started with LeNet Architecture and proceeded to more powerful architecture used by the Nvidia team ("link").  It was difficult to keep the car on track with LeNet for 10 epochs.
+  * My final model consisted of the following layers:
 
-You're not required to use markdown for your writeup.  If you use another method please just submit a pdf of your writeup.
+| Layer         		|     Description	        					|
+|:---------------------:|:---------------------------------------------:|
+| Input         		| 160x320x3 RGB image   							|
+| lambda Layer      | 160x320x3                           |
+| 2d Cropping Layer [(50,20),(0,0)]   | Output 90x320x3                         |
+| Convolution 5x5   | 24 filters 2x2 stride, same padding, outputs 43x158x24 	|
+| RELU					|												|
+| Convolution 5x5   | 36 filters 2x2 stride, same padding, outputs 20x77x36 	|
+| RELU					|												|
+| Convolution 5x5   | 48 filters 2x2 stride, same padding, outputs 8x37x48 	|
+| RELU					|												|
+| Convolution 3x3   | 64 filters 1x1 stride, same padding, outputs 6x35x64 	|
+| RELU					|												|
+| Convolution 3x3   | 64 filters 1x1 stride, same padding, outputs 4x33x64 	|
+| RELU					|												|
+|	Flatten					|												|
+| Fully connected	1	| Input 8448  Output 100     									|
+| Fully connected	2	| Input 100  Output 50     									|
+| Fully connected	3		| Input 50  Output 10     									|
+| Output 		| Input 10  Output 1     									|
 
-The Project
----
-The goals / steps of this project are the following:
-* Use the simulator to collect data of good driving behavior 
-* Design, train and validate a model that predicts a steering angle from image data
-* Use the model to drive the vehicle autonomously around the first track in the simulator. The vehicle should remain on the road for an entire loop around the track.
-* Summarize the results with a written report
+* **Creation of the Training Set & Training Process**
 
-### Dependencies
-This lab requires:
+  * Simulator video recordings is done by 3 cameras left right and center. By using left and right images with some correction steering angle the dataset can be increased by 3 times. The simulator track is has lot of left turns to remove the network over steering to left, dataset is appended by the images flipped along with updated steering angles. While training the images are cropped to remove the unwanted information from scene which confuses the network and normalized for better performance. Generator are used in training as the dataset is huge which requires lot of memory.
+  * Data used for training the model is used from the set provided by the udacity. It randomly shuffled the data set and put 20% of the data into a validation set.  The validation set helped determine if the model was over or under fitting. The ideal number of epochs was 1 as evidenced by figure 1. I used an adam optimizer so that manually training the learning rate wasn't necessary.
 
-* [CarND Term1 Starter Kit](https://github.com/udacity/CarND-Term1-Starter-Kit)
-
-The lab enviroment can be created with CarND Term1 Starter Kit. Click [here](https://github.com/udacity/CarND-Term1-Starter-Kit/blob/master/README.md) for the details.
-
-The following resources can be found in this github repository:
-* drive.py
-* video.py
-* writeup_template.md
-
-The simulator can be downloaded from the classroom. In the classroom, we have also provided sample data that you can optionally use to help train your model.
+![alt text][image1]
 
 ## Details About Files In This Directory
 
@@ -111,15 +111,3 @@ python video.py run1 --fps 48
 ```
 
 Will run the video at 48 FPS. The default FPS is 60.
-
-#### Why create a video
-
-1. It's been noted the simulator might perform differently based on the hardware. So if your model drives succesfully on your machine it might not on another machine (your reviewer). Saving a video is a solid backup in case this happens.
-2. You could slightly alter the code in `drive.py` and/or `video.py` to create a video of what your model sees after the image is processed (may be helpful for debugging).
-
-### Tips
-- Please keep in mind that training images are loaded in BGR colorspace using cv2 while drive.py load images in RGB to predict the steering angles.
-
-## How to write a README
-A well written README file can enhance your project and portfolio.  Develop your abilities to create professional README files by completing [this free course](https://www.udacity.com/course/writing-readmes--ud777).
-

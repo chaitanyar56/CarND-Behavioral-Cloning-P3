@@ -2,7 +2,7 @@
 
 The goal of this project is to develop a CNN model that learns and predict steering angles form the video images.
 
-[Link](https://github.com/chaitanyar56/CarND-Behavioral-Cloning-P3/blob/master/Simulation.mp4) to output of the network on simulator track.
+[Link](https://youtu.be/dYGXXygDOJs) to output of the network on simulator track.
 
 [//]: # (Image References)
 
